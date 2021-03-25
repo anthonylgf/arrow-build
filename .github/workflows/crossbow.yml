@@ -63,10 +63,10 @@ jobs:
         run: |
           python3 arrow/dev/tasks/crossbow.py \
             --queue-path arrow \
-            --queue-remote https://github.com/projjal/arrow-build \
+            --queue-remote https://github.com/anthonylouisbsb/arrow-build \
             upload-artifacts \
-            --sha nightly-660-github-gandiva-jar-osx \
-            --tag nightly-660-github-gandiva-jar-osx \
+            --sha nightly-1-github-gandiva-jar-osx \
+            --tag nightly-1-github-gandiva-jar-osx \
             --pattern "arrow/dist/*.jar"
         env:
           CROSSBOW_GITHUB_TOKEN: ${{ secrets.CROSSBOW_GITHUB_TOKEN }}
