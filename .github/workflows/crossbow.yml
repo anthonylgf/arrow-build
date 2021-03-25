@@ -33,7 +33,7 @@ jobs:
         run: |
           git clone --no-checkout https://github.com/s1mbi0se/arrow arrow
           git -C arrow fetch -t https://github.com/s1mbi0se/arrow feature/add-sha256-functions
-          if [ $CROSSBOW_USE_COMMIT_ID = true ]; then git -C arrow checkout ad93ac9d6c1f011e58b085d2574be6b80fe57dda; else git -C arrow checkout FETCH_HEAD; fi
+          if [ $CROSSBOW_USE_COMMIT_ID = true ]; then git -C arrow checkout ad93ac9d6c1f011e58b085d2574be6b80fe57; else git -C arrow checkout FETCH_HEAD; fi
           git -C arrow submodule update --init --recursive
       - name: Build Gandiva
         run: |
