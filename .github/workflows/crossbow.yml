@@ -27,7 +27,7 @@ on:
 jobs:
   package:
     name: Package Gandiva
-    runs-on: macos-10.15
+    runs-on: ubuntu-18.04
     steps:
       - name: Checkout Arrow
         run: |
@@ -37,36 +37,32 @@ jobs:
           git -C arrow submodule update --init --recursive
       - name: Build Gandiva
         run: |
+          python3 -VV
           cd arrow
           mkdir -p dist
-          export ARROW_TEST_DATA=$PWD/testing/data
+          export CC="gcc-4.9" CXX="g++-4.9"
+          ulimit -c unlimited -S
           set -e
-          dev/tasks/gandiva-jars/build-cpp-osx.sh
+          docker run -v $PWD:/arrow quay.io/anthonylouis/arrow:gandivadocker /arrow/dev/tasks/gandiva-jars/build-cpp-linux.sh
           dev/tasks/gandiva-jars/build-java.sh
         env:
-          OS_NAME: "osx"
+          OS_NAME: "linux"
           CHECK_SHARED_DEPENDENCIES: true
-          MACOSX_DEPLOYMENT_TARGET: "10.11"
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
       - name: Set up Crossbow
         run: |
-          brew install libgit2
-          pip3 install \
-            click \
-            github3.py \
-            jinja2 \
-            jira \
-            pygit2 \
-            ruamel.yaml \
-            setuptools_scm \
-            toolz
+          pip install --requirement arrow/dev/tasks/requirements-crossbow.txt
       - name: Upload artifacts
         run: |
-          python3 arrow/dev/tasks/crossbow.py \
+          python arrow/dev/tasks/crossbow.py \
             --queue-path arrow \
             --queue-remote https://github.com/anthonylouisbsb/arrow-build \
             upload-artifacts \
-            --sha nightly-1-github-gandiva-jar-osx \
-            --tag nightly-1-github-gandiva-jar-osx \
+            --sha nightly-679-github-gandiva-jar-ubuntu \
+            --tag nightly-679-github-gandiva-jar-ubuntu \
             --pattern "arrow/dist/*.jar"
         env:
           CROSSBOW_GITHUB_TOKEN: ${{ secrets.CROSSBOW_GITHUB_TOKEN }}
