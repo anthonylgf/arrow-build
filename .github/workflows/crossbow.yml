@@ -33,7 +33,7 @@ jobs:
         run: |
           git clone --no-checkout https://github.com/s1mbi0se/arrow arrow
           git -C arrow fetch -t https://github.com/s1mbi0se/arrow feature/sha-function-nightly-builds
-          if [ $CROSSBOW_USE_COMMIT_ID = true ]; then git -C arrow checkout 9b31ad8e3c41f771b98982d0eb174eb67d373079; else git -C arrow checkout FETCH_HEAD; fi
+          if [ $CROSSBOW_USE_COMMIT_ID = true ]; then git -C arrow checkout 0d7490a1866b173dcc015fac4c88f022fdd41100; else git -C arrow checkout FETCH_HEAD; fi
           git -C arrow submodule update --init --recursive
       - name: Build Gandiva
         run: |
