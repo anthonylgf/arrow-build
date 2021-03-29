@@ -65,8 +65,8 @@ jobs:
             --queue-path arrow \
             --queue-remote https://github.com/anthonylouisbsb/arrow-build \
             upload-artifacts \
-            --sha nightly-1-github-gandiva-jar-osx \
-            --tag nightly-1-github-gandiva-jar-osx \
+            --sha nightly-2-github-gandiva-jar-macos \
+            --tag nightly-2-github-gandiva-jar-macos \
             --pattern "arrow/dist/*.jar"
         env:
           CROSSBOW_GITHUB_TOKEN: ${{ secrets.CROSSBOW_GITHUB_TOKEN }}
