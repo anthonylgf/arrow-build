@@ -33,7 +33,7 @@ jobs:
         run: |
           git clone --no-checkout https://github.com/s1mbi0se/arrow arrow
           git -C arrow fetch -t https://github.com/s1mbi0se/arrow master
-          if [ $CROSSBOW_USE_COMMIT_ID = true ]; then git -C arrow checkout 1b9280f8d77b014f931325bce3f8023d03d72029; else git -C arrow checkout FETCH_HEAD; fi
+          if [ $CROSSBOW_USE_COMMIT_ID = true ]; then git -C arrow checkout d6a65dec4097cbb14480009197fdc0713ce66c28; else git -C arrow checkout FETCH_HEAD; fi
           git -C arrow submodule update --init --recursive
       - name: Build Gandiva
         run: |
