@@ -33,7 +33,7 @@ jobs:
         run: |
           git clone --no-checkout https://github.com/s1mbi0se/arrow arrow
           git -C arrow fetch -t https://github.com/s1mbi0se/arrow feature/sha-pr-on-old-top
-          git -C arrow checkout ba09e0e403c33adbbeb3c5666a012af7c165c76b
+          git -C arrow checkout 2e5e757b544aab2aba225e96dffff0b2ff2d4b42
           git -C arrow submodule update --init --recursive
       - name: Build Gandiva
         run: |
