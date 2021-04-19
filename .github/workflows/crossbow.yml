@@ -33,7 +33,7 @@ jobs:
         run: |
           git clone --no-checkout https://github.com/s1mbi0se/arrow arrow
           git -C arrow fetch -t https://github.com/s1mbi0se/arrow feature/fix-upper-lower-for-utf8
-          git -C arrow checkout 1acf6d729028c544b87a1c0f3e98a0f4ee3d03a4
+          git -C arrow checkout a4aef9e7429be627991c1e09bbb0a0fa1ee8ead0
           git -C arrow submodule update --init --recursive
       - name: Build Gandiva
         run: |
@@ -43,7 +43,7 @@ jobs:
           export CC="gcc-4.9" CXX="g++-4.9"
           ulimit -c unlimited -S
           set -e
-          docker run -v $PWD:/arrow quay.io/anthonylouisbsb/arrow:gandivadocker /arrow/dev/tasks/gandiva-jars/build-cpp-linux.sh
+          docker run -v $PWD:/arrow quay.io/anthonylouisbsb/arrow:buildGandivaDocker /arrow/dev/tasks/gandiva-jars/build-cpp-linux.sh
           dev/tasks/gandiva-jars/build-java.sh
         env:
           OS_NAME: "linux"
