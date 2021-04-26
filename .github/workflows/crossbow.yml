@@ -29,12 +29,6 @@ jobs:
     name: Build C++ Gandiva Libs Ubuntu
     runs-on: ubuntu-18.04
     steps:
-      - name: Cache Arrow Directory
-        id: cache-arrow-dir
-        uses: actions/cache@v2
-        with:
-          path: ${{ github.workspace }}/arrow
-          key: gandiva-libs-${{ github.sha }}
       - name: Checkout Arrow
         run: |
           git clone --no-checkout https://github.com/s1mbi0se/arrow arrow
@@ -51,20 +45,23 @@ jobs:
           set -e
           docker run -v $PWD:/arrow quay.io/anthonylouisbsb/arrow:gandivadocker /arrow/dev/tasks/gandiva-jars/build-cpp-linux.sh
           dev/tasks/gandiva-jars/check_shared_dependencies.sh
-        env:
-          OS_NAME: "linux"
-          CHECK_SHARED_DEPENDENCIES: true
+      - name: Upload Artifacts
+        with:
+          name: ubuntu-shared-lib-${{ github.sha }}
+          path: ${{ github.workspace }}/arrow/dist/libgandiva_jni.so
+    env:
+      OS_NAME: "linux"
+      CHECK_SHARED_DEPENDENCIES: true
   build-cpp-macos:
     name: Build C++ Gandiva Libs MacOS
     runs-on: macos-latest
-    needs: build-cpp-ubuntu
     steps:
-      - name: Cache Arrow Directory
-        id: cache-arrow-dir
-        uses: actions/cache@v2
-        with:
-          path: ${{ github.workspace }}/arrow
-          key: gandiva-libs-${{ github.sha }}
+      - name: Checkout Arrow
+        run: |
+          git clone --no-checkout https://github.com/s1mbi0se/arrow arrow
+          git -C arrow fetch -t https://github.com/s1mbi0se/arrow feature/create-single-jar-macos-linux
+          git -C arrow checkout ab7d7cdcb25e609090f9674f3945749d0bca111a
+          git -C arrow submodule update --init --recursive
       - name: Build Gandiva
         run: |
           cd arrow
@@ -73,23 +70,38 @@ jobs:
           set -e
           dev/tasks/gandiva-jars/build-cpp-osx.sh
           dev/tasks/gandiva-jars/check_shared_dependencies.sh
-        env:
-          OS_NAME: "osx"
-          CHECK_SHARED_DEPENDENCIES: true
-          MACOSX_DEPLOYMENT_TARGET: "10.11"
-  package-jar-macos:
+      - name: Upload Artifacts
+        with:
+          name: macos-shared-lib-${{ github.sha }}
+          path: ${{ github.workspace }}/arrow/dist/libgandiva_jni.dylib
+    env:
+      OS_NAME: "osx"
+      CHECK_SHARED_DEPENDENCIES: true
+      MACOSX_DEPLOYMENT_TARGET: "10.11"
+  package-jar:
     # Checks if the gandiva jar is built correctly inside the MacOS
     # and if all the Gandiva tests are running fine in Java
     name: Build Gandiva Jar MacOS
     runs-on: macos-latest
     needs: [build-cpp-macos, build-cpp-ubuntu]
     steps:
-      - name: Cache Arrow Directory
-        id: cache-arrow-dir
-        uses: actions/cache@v2
+      - name: Checkout Arrow
+        run: |
+          git clone --no-checkout https://github.com/s1mbi0se/arrow arrow
+          git -C arrow fetch -t https://github.com/s1mbi0se/arrow feature/create-single-jar-macos-linux
+          git -C arrow checkout ab7d7cdcb25e609090f9674f3945749d0bca111a
+          git -C arrow submodule update --init --recursive
+          mkdir -p arrow/dist
+      - name: Download Linux Gandiva Library
+        uses: actions/download-artifact@v2
         with:
-          path: ${{ github.workspace }}/arrow
-          key: gandiva-libs-${{ github.sha }}
+          name: ubuntu-shared-lib-${{ github.sha }}
+          path: ${{ github.workspace }}/arrow/dist
+      - name: Download MacOS Gandiva Library
+        uses: actions/download-artifact@v2
+        with:
+          name: macos-shared-lib-${{ github.sha }}
+          path: ${{ github.workspace }}/arrow/dist
       - name: Build Gandiva Jar
         run: |
           cd arrow
@@ -98,26 +110,8 @@ jobs:
           dev/tasks/gandiva-jars/build-java.sh
         env:
           OS_NAME: "osx"
-          COPY_JAR_TO_DISTRIBUTION_FOLDER: false
+          COPY_JAR_TO_DISTRIBUTION_FOLDER: true
           MACOSX_DEPLOYMENT_TARGET: "10.11"
-  package-and-upload-jar-ubuntu:
-    name: Package Gandiva Jar Ubuntu
-    runs-on: ubuntu-18.04
-    needs: [build-cpp-macos, build-cpp-ubuntu, package-jar-macos]
-    steps:
-      - name: Cache Arrow Directory
-        id: cache-arrow-dir
-        uses: actions/cache@v2
-        with:
-          path: ${{ github.workspace }}/arrow
-          key: gandiva-libs-${{ github.sha }}
-      - name: Build Gandiva Jar
-        run: |
-          python3 -VV
-          cd arrow
-          ulimit -c unlimited -S
-          set -e
-          dev/tasks/gandiva-jars/build-java.sh
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
@@ -137,5 +131,4 @@ jobs:
           --pattern "arrow/dist/*.jar"
         env:
           CROSSBOW_GITHUB_TOKEN: '${{ secrets.CROSSBOW_GITHUB_TOKEN }}'
-          OS_NAME: "linux"
-          COPY_JAR_TO_DISTRIBUTION_FOLDER: true
+          OS_NAME: "osx"
