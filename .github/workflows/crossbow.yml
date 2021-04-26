@@ -39,7 +39,7 @@ jobs:
         run: |
           git clone --no-checkout https://github.com/s1mbi0se/arrow arrow
           git -C arrow fetch -t https://github.com/s1mbi0se/arrow feature/create-single-jar-macos-linux
-          git -C arrow checkout 4ed3e38befe5886b000ba5949553cb447f71f105
+          git -C arrow checkout ab7d7cdcb25e609090f9674f3945749d0bca111a
           git -C arrow submodule update --init --recursive
       - name: Build Gandiva
         run: |
