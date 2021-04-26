@@ -37,8 +37,8 @@ jobs:
           key: gandiva-libs-${{ github.sha }}
       - name: Checkout Arrow
         run: |
-          git clone --no-checkout {{ arrow.remote }} arrow
-          git -C arrow fetch -t {{ arrow.remote }} {{ arrow.branch }}
+          git clone --no-checkout https://github.com/s1mbi0se/arrow arrow
+          git -C arrow fetch -t https://github.com/s1mbi0se/arrow feature/create-single-jar-macos-linux
           git -C arrow checkout 4ed3e38befe5886b000ba5949553cb447f71f105
           git -C arrow submodule update --init --recursive
       - name: Build Gandiva
