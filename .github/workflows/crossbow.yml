@@ -30,6 +30,7 @@ jobs:
     runs-on: ubuntu-18.04
     steps:
       - name: Cache Arrow Directory
+        id: cache-arrow-dir
         uses: actions/cache@v2
         with:
           path: ${{ github.workspace }}/arrow
@@ -59,6 +60,7 @@ jobs:
     needs: build-cpp-ubuntu
     steps:
       - name: Cache Arrow Directory
+        id: cache-arrow-dir
         uses: actions/cache@v2
         with:
           path: ${{ github.workspace }}/arrow
@@ -83,6 +85,7 @@ jobs:
     needs: [build-cpp-macos, build-cpp-ubuntu]
     steps:
       - name: Cache Arrow Directory
+        id: cache-arrow-dir
         uses: actions/cache@v2
         with:
           path: ${{ github.workspace }}/arrow
@@ -103,6 +106,7 @@ jobs:
     needs: [build-cpp-macos, build-cpp-ubuntu, package-jar-macos]
     steps:
       - name: Cache Arrow Directory
+        id: cache-arrow-dir
         uses: actions/cache@v2
         with:
           path: ${{ github.workspace }}/arrow
