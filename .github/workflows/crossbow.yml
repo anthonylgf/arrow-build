@@ -46,6 +46,7 @@ jobs:
           docker run -v $PWD:/arrow quay.io/anthonylouisbsb/arrow:gandivadocker /arrow/dev/tasks/gandiva-jars/build-cpp-linux.sh
           dev/tasks/gandiva-jars/check_shared_dependencies.sh
       - name: Upload Artifacts
+        uses: actions/upload-artifact@v2
         with:
           name: ubuntu-shared-lib-${{ github.sha }}
           path: ${{ github.workspace }}/arrow/dist/libgandiva_jni.so
@@ -71,6 +72,7 @@ jobs:
           dev/tasks/gandiva-jars/build-cpp-osx.sh
           dev/tasks/gandiva-jars/check_shared_dependencies.sh
       - name: Upload Artifacts
+        uses: actions/upload-artifact@v2
         with:
           name: macos-shared-lib-${{ github.sha }}
           path: ${{ github.workspace }}/arrow/dist/libgandiva_jni.dylib
