@@ -129,11 +129,11 @@ jobs:
         shell: bash
         run: |
           archery crossbow \
-          --queue-path $(pwd) \
-          --queue-remote {{ queue_remote_url }} \
+          --queue-path arrow \
+          --queue-remote https://github.com/anthonylouisbsb/arrow-build \
           upload-artifacts \
-          --sha {{ task.branch }} \
-          --tag {{ task.tag }} \
+          --sha nigthly-10-github-gandiva-jar-ubuntu-macos \
+          --tag nigthly-10-github-gandiva-jar-ubuntu-macos \
           --pattern "arrow/dist/*.jar"
         env:
           CROSSBOW_GITHUB_TOKEN: '${{ secrets.CROSSBOW_GITHUB_TOKEN }}'
