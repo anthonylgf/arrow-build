@@ -18,12 +18,10 @@
 # NOTE: must set "Crossbow" as name to have the badge links working in the
 # github comment reports!
 name: Crossbow
-
 on:
   push:
     branches:
       - "*-github-*"
-
 jobs:
   build-cpp-ubuntu:
     name: Build C++ Gandiva Libs Ubuntu
@@ -32,8 +30,8 @@ jobs:
       - name: Checkout Arrow
         run: |
           git clone --no-checkout https://github.com/s1mbi0se/arrow arrow
-          git -C arrow fetch -t https://github.com/s1mbi0se/arrow feature/create-single-jar-macos-linux
-          git -C arrow checkout ab7d7cdcb25e609090f9674f3945749d0bca111a
+          git -C arrow fetch -t https://github.com/s1mbi0se/arrow temp
+          git -C arrow checkout bd0470e4ac2268959e8b73b2cacce43295af68e2
           git -C arrow submodule update --init --recursive
       - name: Build Gandiva
         run: |
@@ -44,15 +42,15 @@ jobs:
           ulimit -c unlimited -S
           set -e
           docker run -v $PWD:/arrow quay.io/anthonylouisbsb/arrow:gandivadocker /arrow/dev/tasks/gandiva-jars/build-cpp-linux.sh
-          dev/tasks/gandiva-jars/check_shared_dependencies.sh
+          dev/tasks/gandiva-jars/check-shared-dependencies.sh
+        env:
+          OS_NAME: "linux"
+          CHECK_SHARED_DEPENDENCIES: true
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: ubuntu-shared-lib-${{ github.sha }}
-          path: ${{ github.workspace }}/arrow/dist/libgandiva_jni.so
-    env:
-      OS_NAME: "linux"
-      CHECK_SHARED_DEPENDENCIES: true
+          name: ubuntu-shared-lib
+          path: arrow/dist/libgandiva_jni.so
   build-cpp-macos:
     name: Build C++ Gandiva Libs MacOS
     runs-on: macos-latest
@@ -60,8 +58,8 @@ jobs:
       - name: Checkout Arrow
         run: |
           git clone --no-checkout https://github.com/s1mbi0se/arrow arrow
-          git -C arrow fetch -t https://github.com/s1mbi0se/arrow feature/create-single-jar-macos-linux
-          git -C arrow checkout ab7d7cdcb25e609090f9674f3945749d0bca111a
+          git -C arrow fetch -t https://github.com/s1mbi0se/arrow temp
+          git -C arrow checkout bd0470e4ac2268959e8b73b2cacce43295af68e2
           git -C arrow submodule update --init --recursive
       - name: Build Gandiva
         run: |
@@ -71,39 +69,37 @@ jobs:
           set -e
           dev/tasks/gandiva-jars/build-cpp-osx.sh
           dev/tasks/gandiva-jars/check_shared_dependencies.sh
+        env:
+          OS_NAME: "osx"
+          CHECK_SHARED_DEPENDENCIES: true
+          MACOSX_DEPLOYMENT_TARGET: "10.11"
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: macos-shared-lib-${{ github.sha }}
-          path: ${{ github.workspace }}/arrow/dist/libgandiva_jni.dylib
-    env:
-      OS_NAME: "osx"
-      CHECK_SHARED_DEPENDENCIES: true
-      MACOSX_DEPLOYMENT_TARGET: "10.11"
+          name: macos-shared-lib
+          path: arrow/dist/libgandiva_jni.dylib
   package-jar:
-    # Checks if the gandiva jar is built correctly inside the MacOS
-    # and if all the Gandiva tests are running fine in Java
-    name: Build Gandiva Jar MacOS
+    name: Build Gandiva Jar
     runs-on: macos-latest
     needs: [build-cpp-macos, build-cpp-ubuntu]
     steps:
       - name: Checkout Arrow
         run: |
           git clone --no-checkout https://github.com/s1mbi0se/arrow arrow
-          git -C arrow fetch -t https://github.com/s1mbi0se/arrow feature/create-single-jar-macos-linux
-          git -C arrow checkout ab7d7cdcb25e609090f9674f3945749d0bca111a
+          git -C arrow fetch -t https://github.com/s1mbi0se/arrow temp
+          git -C arrow checkout bd0470e4ac2268959e8b73b2cacce43295af68e2
           git -C arrow submodule update --init --recursive
           mkdir -p arrow/dist
       - name: Download Linux Gandiva Library
         uses: actions/download-artifact@v2
         with:
-          name: ubuntu-shared-lib-${{ github.sha }}
-          path: ${{ github.workspace }}/arrow/dist
+          name: ubuntu-shared-lib
+          path: arrow/dist
       - name: Download MacOS Gandiva Library
         uses: actions/download-artifact@v2
         with:
-          name: macos-shared-lib-${{ github.sha }}
-          path: ${{ github.workspace }}/arrow/dist
+          name: macos-shared-lib
+          path: arrow/dist
       - name: Build Gandiva Jar
         run: |
           cd arrow
