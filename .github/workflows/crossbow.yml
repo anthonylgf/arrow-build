@@ -31,7 +31,7 @@ jobs:
         run: |
           git clone --no-checkout https://github.com/s1mbi0se/arrow arrow
           git -C arrow fetch -t https://github.com/s1mbi0se/arrow temp
-          git -C arrow checkout 718fb2cdfce9d707677321b02fb68da21cde940b
+          git -C arrow checkout c1363260229327d1a9f74234d08bd065a6584693
           git -C arrow submodule update --init --recursive
       - name: Build Gandiva
         run: |
@@ -59,7 +59,7 @@ jobs:
         run: |
           git clone --no-checkout https://github.com/s1mbi0se/arrow arrow
           git -C arrow fetch -t https://github.com/s1mbi0se/arrow temp
-          git -C arrow checkout 718fb2cdfce9d707677321b02fb68da21cde940b
+          git -C arrow checkout c1363260229327d1a9f74234d08bd065a6584693
           git -C arrow submodule update --init --recursive
       - name: Build Gandiva
         run: |
@@ -68,7 +68,7 @@ jobs:
           export ARROW_TEST_DATA=$PWD/testing/data
           set -e
           dev/tasks/gandiva-jars/build-cpp-osx.sh
-          dev/tasks/gandiva-jars/check_shared_dependencies.sh
+          dev/tasks/gandiva-jars/check-shared-dependencies.sh
         env:
           OS_NAME: "osx"
           CHECK_SHARED_DEPENDENCIES: true
@@ -87,7 +87,7 @@ jobs:
         run: |
           git clone --no-checkout https://github.com/s1mbi0se/arrow arrow
           git -C arrow fetch -t https://github.com/s1mbi0se/arrow temp
-          git -C arrow checkout 718fb2cdfce9d707677321b02fb68da21cde940b
+          git -C arrow checkout c1363260229327d1a9f74234d08bd065a6584693
           git -C arrow submodule update --init --recursive
           mkdir -p arrow/dist
       - name: Download Linux Gandiva Library
