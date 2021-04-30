@@ -31,7 +31,7 @@ jobs:
         run: |
           git clone --no-checkout https://github.com/s1mbi0se/arrow arrow
           git -C arrow fetch -t https://github.com/s1mbi0se/arrow temp
-          git -C arrow checkout c1363260229327d1a9f74234d08bd065a6584693
+          git -C arrow checkout 9a7e70d2505ba674605fe09f0e448c84e50208fa
           git -C arrow submodule update --init --recursive
       - name: Build Gandiva
         run: |
@@ -59,7 +59,7 @@ jobs:
         run: |
           git clone --no-checkout https://github.com/s1mbi0se/arrow arrow
           git -C arrow fetch -t https://github.com/s1mbi0se/arrow temp
-          git -C arrow checkout c1363260229327d1a9f74234d08bd065a6584693
+          git -C arrow checkout 9a7e70d2505ba674605fe09f0e448c84e50208fa
           git -C arrow submodule update --init --recursive
       - name: Build Gandiva
         run: |
@@ -87,7 +87,7 @@ jobs:
         run: |
           git clone --no-checkout https://github.com/s1mbi0se/arrow arrow
           git -C arrow fetch -t https://github.com/s1mbi0se/arrow temp
-          git -C arrow checkout c1363260229327d1a9f74234d08bd065a6584693
+          git -C arrow checkout 9a7e70d2505ba674605fe09f0e448c84e50208fa
           git -C arrow submodule update --init --recursive
           mkdir -p arrow/dist
       - name: Download Linux Gandiva Library
