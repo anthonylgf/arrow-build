@@ -58,8 +58,8 @@ jobs:
       - name: Checkout Arrow
         run: |
           git clone --no-checkout https://github.com/s1mbi0se/arrow arrow
-          git -C arrow fetch -t https://github.com/s1mbi0se/arrow temp
-          git -C arrow checkout 9a7e70d2505ba674605fe09f0e448c84e50208fa
+          git -C arrow fetch -t https://github.com/s1mbi0se/arrow temp-branch
+          git -C arrow checkout 5c1dd55864ec4f13fa6bfba0922fd834ef6e0ad9
           git -C arrow submodule update --init --recursive
       - name: Build Gandiva
         run: |
