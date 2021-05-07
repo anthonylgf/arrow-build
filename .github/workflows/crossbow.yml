@@ -86,8 +86,8 @@ jobs:
       - name: Checkout Arrow
         run: |
           git clone --no-checkout https://github.com/s1mbi0se/arrow arrow
-          git -C arrow fetch -t https://github.com/s1mbi0se/arrow temp
-          git -C arrow checkout 9a7e70d2505ba674605fe09f0e448c84e50208fa
+          git -C arrow fetch -t https://github.com/s1mbi0se/arrow temp-branch
+          git -C arrow checkout 5c1dd55864ec4f13fa6bfba0922fd834ef6e0ad9
           git -C arrow submodule update --init --recursive
           mkdir -p arrow/dist
       - name: Download Linux Gandiva Library
@@ -124,8 +124,8 @@ jobs:
           --queue-path arrow \
           --queue-remote https://github.com/anthonylouisbsb/arrow-build \
           upload-artifacts \
-          --sha nigthly-10-github-gandiva-jar-ubuntu-macos \
-          --tag nigthly-10-github-gandiva-jar-ubuntu-macos \
+          --sha nigthly-16-github-gandiva-jar-ubuntu-macos \
+          --tag nigthly-16-github-gandiva-jar-ubuntu-macos \
           --pattern "arrow/dist/*.jar"
         env:
           CROSSBOW_GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
