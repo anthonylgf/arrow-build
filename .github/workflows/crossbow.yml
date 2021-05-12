@@ -31,7 +31,7 @@ jobs:
         run: |
           git clone --no-checkout https://github.com/s1mbi0se/arrow arrow
           git -C arrow fetch -t https://github.com/s1mbi0se/arrow tests/test-generate-jar
-          git -C arrow checkout 789fc91dda4c03edda0e13bd62886895855b4356
+          git -C arrow checkout 470391b1efd7b06106faf46a3d68dff4a407f149
           git -C arrow submodule update --init --recursive
       - name: Setup Python
         uses: actions/setup-python@v1
@@ -68,7 +68,7 @@ jobs:
         run: |
           git clone --no-checkout https://github.com/s1mbi0se/arrow arrow
           git -C arrow fetch -t https://github.com/s1mbi0se/arrow tests/test-generate-jar
-          git -C arrow checkout 789fc91dda4c03edda0e13bd62886895855b4356
+          git -C arrow checkout 470391b1efd7b06106faf46a3d68dff4a407f149
           git -C arrow submodule update --init --recursive
       - name: Build C++ Libs
         run: |
@@ -98,7 +98,7 @@ jobs:
         run: |
           git clone --no-checkout https://github.com/s1mbi0se/arrow arrow
           git -C arrow fetch -t https://github.com/s1mbi0se/arrow tests/test-generate-jar
-          git -C arrow checkout 789fc91dda4c03edda0e13bd62886895855b4356
+          git -C arrow checkout 470391b1efd7b06106faf46a3d68dff4a407f149
           git -C arrow submodule update --init --recursive
           mkdir -p arrow/dist
       - name: Download Linux C++ Libraries
