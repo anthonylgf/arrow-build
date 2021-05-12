@@ -30,10 +30,10 @@ jobs:
       - name: Checkout Arrow
         run: |
           git clone --no-checkout https://github.com/s1mbi0se/arrow arrow
-          git -C arrow fetch -t https://github.com/s1mbi0se/arrow temp-branch
-          git -C arrow checkout 0450c8a6396a99df3291488e6ba081c9e673eb88
+          git -C arrow fetch -t https://github.com/s1mbi0se/arrow feature/generate-single-jar-for-all-jar-libraries
+          git -C arrow checkout 8572b8f312224dd1202ff70c18dc87124e01408a
           git -C arrow submodule update --init --recursive
-      - name: Build Gandiva
+      - name: Build C++ Libs
         run: |
           python3 -VV
           cd arrow
@@ -41,25 +41,27 @@ jobs:
           export CC="gcc-4.9" CXX="g++-4.9"
           ulimit -c unlimited -S
           set -e
-          docker run -v $PWD:/arrow quay.io/anthonylouisbsb/arrow:gandivadocker /arrow/dev/tasks/gandiva-jars/build-cpp-linux.sh
+          docker run -v $PWD:/arrow anthonysimbiose/arrow-linux:dependencies /arrow/dev/tasks/gandiva-jars/build-cpp-linux.sh
           dev/tasks/gandiva-jars/check-shared-dependencies.sh
         env:
           OS_NAME: "linux"
           CHECK_SHARED_DEPENDENCIES: true
+      - name: Compress into single artifact
+        run: tar -cvzf arrow-shared-libs-linux.tar.gz arrow/dist/
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
         with:
           name: ubuntu-shared-lib
-          path: arrow/dist/libgandiva_jni.so
+          path: arrow-shared-libs-linux.tar.gz
   build-cpp-macos:
-    name: Build C++ Gandiva Libs MacOS
+    name: Build C++ Libs MacOS
     runs-on: macos-latest
     steps:
       - name: Checkout Arrow
         run: |
           git clone --no-checkout https://github.com/s1mbi0se/arrow arrow
-          git -C arrow fetch -t https://github.com/s1mbi0se/arrow temp-branch
-          git -C arrow checkout 0450c8a6396a99df3291488e6ba081c9e673eb88
+          git -C arrow fetch -t https://github.com/s1mbi0se/arrow feature/generate-single-jar-for-all-jar-libraries
+          git -C arrow checkout 8572b8f312224dd1202ff70c18dc87124e01408a
           git -C arrow submodule update --init --recursive
       - name: Build Gandiva
         run: |
@@ -73,11 +75,13 @@ jobs:
           OS_NAME: "osx"
           CHECK_SHARED_DEPENDENCIES: true
           MACOSX_DEPLOYMENT_TARGET: "10.11"
+      - name: Compress into single artifact
+        run: tar -cvzf arrow-shared-libs-macos.tar.gz arrow/dist/
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
         with:
           name: macos-shared-lib
-          path: arrow/dist/libgandiva_jni.dylib
+          path: tar -cvzf arrow-shared-libs-macos.tar.gz
   package-jar:
     name: Build Gandiva Jar
     runs-on: macos-latest
@@ -85,21 +89,23 @@ jobs:
     steps:
       - name: Checkout Arrow
         run: |
-          git clone --no-checkout https://github.com/s1mbi0se/arrow arrow
-          git -C arrow fetch -t https://github.com/s1mbi0se/arrow temp-branch
-          git -C arrow checkout 0450c8a6396a99df3291488e6ba081c9e673eb88
+          git clone --no-checkout {{ arrow.remote }} arrow
+          git -C arrow fetch -t {{ arrow.remote }} {{ arrow.branch }}
+          if [ $CROSSBOW_USE_COMMIT_ID = true ]; then git -C arrow checkout {{ arrow.head }}; else git -C arrow checkout FETCH_HEAD; fi
           git -C arrow submodule update --init --recursive
           mkdir -p arrow/dist
       - name: Download Linux Gandiva Library
         uses: actions/download-artifact@v2
         with:
           name: ubuntu-shared-lib
-          path: arrow/dist
       - name: Download MacOS Gandiva Library
         uses: actions/download-artifact@v2
         with:
           name: macos-shared-lib
-          path: arrow/dist
+      - name: Descompress artifacts
+        run: |
+          tar -xvzf arrow-shared-libs-macos.tar.gz
+          tar -Xvzf arrow-shared-libs-linux.tar.gz
       - name: Build Gandiva Jar
         run: |
           cd arrow
@@ -124,8 +130,8 @@ jobs:
           --queue-path arrow \
           --queue-remote https://github.com/anthonylouisbsb/arrow-build \
           upload-artifacts \
-          --sha nightly-16-github-gandiva-jar-ubuntu-macos \
-          --tag nightly-16-github-gandiva-jar-ubuntu-macos \
+          --sha nightly-17-github-gandiva-jar-ubuntu-macos \
+          --tag nightly-17-github-gandiva-jar-ubuntu-macos \
           --pattern "arrow/dist/*.jar"
         env:
           CROSSBOW_GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
