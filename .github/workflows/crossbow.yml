@@ -31,7 +31,7 @@ jobs:
         run: |
           git clone --no-checkout https://github.com/s1mbi0se/arrow arrow
           git -C arrow fetch -t https://github.com/s1mbi0se/arrow feature/generate-single-jar-for-all-jar-libraries
-          git -C arrow checkout a5a93608eb0e9f7be0feadbc0c74e3f4784ec655
+          git -C arrow checkout 15bd587c7185d5a995a69a46abce67c702e8e9cf
           git -C arrow submodule update --init --recursive
       - name: Build C++ Libs
         run: |
@@ -61,7 +61,7 @@ jobs:
         run: |
           git clone --no-checkout https://github.com/s1mbi0se/arrow arrow
           git -C arrow fetch -t https://github.com/s1mbi0se/arrow feature/generate-single-jar-for-all-jar-libraries
-          git -C arrow checkout a5a93608eb0e9f7be0feadbc0c74e3f4784ec655
+          git -C arrow checkout 15bd587c7185d5a995a69a46abce67c702e8e9cf
           git -C arrow submodule update --init --recursive
       - name: Build C++ Libs
         run: |
@@ -91,7 +91,7 @@ jobs:
         run: |
           git clone --no-checkout https://github.com/s1mbi0se/arrow arrow
           git -C arrow fetch -t https://github.com/s1mbi0se/arrow feature/generate-single-jar-for-all-jar-libraries
-          git -C arrow checkout a5a93608eb0e9f7be0feadbc0c74e3f4784ec655
+          git -C arrow checkout 15bd587c7185d5a995a69a46abce67c702e8e9cf
           git -C arrow submodule update --init --recursive
           mkdir -p arrow/dist
       - name: Download Linux C++ Libraries
