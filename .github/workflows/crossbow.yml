@@ -31,7 +31,7 @@ jobs:
         run: |
           git clone --no-checkout https://github.com/s1mbi0se/arrow arrow
           git -C arrow fetch -t https://github.com/s1mbi0se/arrow tests/test-generate-jar
-          git -C arrow checkout a65c3bc6a9cfb946cfea402e605a8b7d5a740bc5
+          git -C arrow checkout 0fd5b401bc72635291401d8d97318ac481e25d07
           git -C arrow submodule update --init --recursive
       - name: Setup Python
         uses: actions/setup-python@v1
@@ -47,12 +47,8 @@ jobs:
           export CC="gcc-4.9" CXX="g++-4.9"
           ulimit -c unlimited -S
           set -e
-          archery docker build python-wheel-manylinux-2014-java
-          archery docker run python-wheel-manylinux-2014-java
-          dev/tasks/jars/check-shared-dependencies.sh
-        env:
-          OS_NAME: "linux"
-          CHECK_SHARED_DEPENDENCIES: true
+          archery docker build java-bundled-jars
+          archery docker run java-bundled-jars
       - name: Compress into single artifact
         run: tar -cvzf arrow-shared-libs-linux.tar.gz arrow/dist/
       - name: Upload Artifacts
@@ -68,20 +64,15 @@ jobs:
         run: |
           git clone --no-checkout https://github.com/s1mbi0se/arrow arrow
           git -C arrow fetch -t https://github.com/s1mbi0se/arrow tests/test-generate-jar
-          git -C arrow checkout a65c3bc6a9cfb946cfea402e605a8b7d5a740bc5
+          git -C arrow checkout 0fd5b401bc72635291401d8d97318ac481e25d07
           git -C arrow submodule update --init --recursive
       - name: Build C++ Libs
         run: |
-          cd arrow
-          mkdir -p dist
-          export ARROW_TEST_DATA=$PWD/testing/data
           set -e
-          dev/tasks/jars/build-cpp-osx.sh
-          dev/tasks/jars/check-shared-dependencies.sh
+          arrow/ci/scripts/java_bundled_jars_macos_build.sh $ARROW_DIR $ARROW_DIR/cpp-build $ARROW_DIR/dist
         env:
-          OS_NAME: "osx"
-          CHECK_SHARED_DEPENDENCIES: true
           MACOSX_DEPLOYMENT_TARGET: "10.11"
+          ARROW_DIR: {{ '${{ github.workspace }}' }}/arrow
       - name: Compress into single artifact
         run: tar -cvzf arrow-shared-libs-macos.tar.gz arrow/dist/
       - name: Upload Artifacts
@@ -98,7 +89,7 @@ jobs:
         run: |
           git clone --no-checkout https://github.com/s1mbi0se/arrow arrow
           git -C arrow fetch -t https://github.com/s1mbi0se/arrow tests/test-generate-jar
-          git -C arrow checkout a65c3bc6a9cfb946cfea402e605a8b7d5a740bc5
+          git -C arrow checkout 0fd5b401bc72635291401d8d97318ac481e25d07
           git -C arrow submodule update --init --recursive
           mkdir -p arrow/dist
       - name: Download Linux C++ Libraries
@@ -115,14 +106,10 @@ jobs:
           tar -xvzf arrow-shared-libs-linux.tar.gz
       - name: Build Jar
         run: |
-          cd arrow
-          export ARROW_TEST_DATA=$PWD/testing/data
           set -e
-          dev/tasks/jars/build-java.sh
+          arrow/ci/scripts/java_bundled_jars_java_build.sh $ARROW_DIR $ARROW_DIR/dist/ true
         env:
-          OS_NAME: "osx"
-          COPY_JAR_TO_DISTRIBUTION_FOLDER: true
-          MACOSX_DEPLOYMENT_TARGET: "10.11"
+          ARROW_DIR: {{ '${{ github.workspace }}' }}/arrow
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
