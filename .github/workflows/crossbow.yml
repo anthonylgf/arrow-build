@@ -30,8 +30,8 @@ jobs:
       - name: Checkout Arrow
         run: |
           git clone --no-checkout https://github.com/s1mbi0se/arrow arrow
-          git -C arrow fetch -t https://github.com/s1mbi0se/arrow tests/test-generate-jar
-          git -C arrow checkout 85c15a591d02fc7291b12bafc1e0252ea165b175
+          git -C arrow fetch -t https://github.com/s1mbi0se/arrow feature/generate-jar-for-all-components
+          git -C arrow checkout 7316dc3b8cf38f73cbd1e050167bb96b2d180ceb
           git -C arrow submodule update --init --recursive
       - name: Setup Python
         uses: actions/setup-python@v1
@@ -63,8 +63,8 @@ jobs:
       - name: Checkout Arrow
         run: |
           git clone --no-checkout https://github.com/s1mbi0se/arrow arrow
-          git -C arrow fetch -t https://github.com/s1mbi0se/arrow tests/test-generate-jar
-          git -C arrow checkout 85c15a591d02fc7291b12bafc1e0252ea165b175
+          git -C arrow fetch -t https://github.com/s1mbi0se/arrow feature/generate-jar-for-all-components
+          git -C arrow checkout 7316dc3b8cf38f73cbd1e050167bb96b2d180ceb
           git -C arrow submodule update --init --recursive
       - name: Build C++ Libs
         run: |
@@ -89,8 +89,8 @@ jobs:
       - name: Checkout Arrow
         run: |
           git clone --no-checkout https://github.com/s1mbi0se/arrow arrow
-          git -C arrow fetch -t https://github.com/s1mbi0se/arrow tests/test-generate-jar
-          git -C arrow checkout 85c15a591d02fc7291b12bafc1e0252ea165b175
+          git -C arrow fetch -t https://github.com/s1mbi0se/arrow feature/generate-jar-for-all-components
+          git -C arrow checkout 7316dc3b8cf38f73cbd1e050167bb96b2d180ceb
           git -C arrow submodule update --init --recursive
           mkdir -p arrow/dist
       - name: Download Linux C++ Libraries
@@ -125,8 +125,8 @@ jobs:
           --queue-path arrow \
           --queue-remote https://github.com/anthonylouisbsb/arrow-build \
           upload-artifacts \
-          --sha nigthly-18-github-gandiva-jar-ubuntu-macos \
-          --tag nigthly-18-github-gandiva-jar-ubuntu-macos \
+          --sha nigthly-19-github-gandiva-jar-ubuntu-macos \
+          --tag nigthly-19-github-gandiva-jar-ubuntu-macos \
           --pattern "arrow/dist/*.jar"
         env:
           CROSSBOW_GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
