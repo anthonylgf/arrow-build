@@ -31,8 +31,8 @@ jobs:
       - name: Checkout Arrow
         run: |
           git clone --no-checkout https://github.com/s1mbi0se/arrow arrow
-          git -C arrow fetch -t https://github.com/s1mbi0se/arrow rel-1500
-          git -C arrow checkout dc0dc107a670154779881376ef6d44377f037507
+          git -C arrow fetch -t https://github.com/s1mbi0se/arrow master
+          git -C arrow checkout 0dc9bc21c968e38ee2fa47b41213d33c2d2a7d1f
           git -C arrow submodule update --init --recursive
       - name: Fetch Submodules and Tags
         shell: bash
@@ -61,8 +61,8 @@ jobs:
       - name: Checkout Arrow
         run: |
           git clone --no-checkout https://github.com/s1mbi0se/arrow arrow
-          git -C arrow fetch -t https://github.com/s1mbi0se/arrow rel-1500
-          git -C arrow checkout dc0dc107a670154779881376ef6d44377f037507
+          git -C arrow fetch -t https://github.com/s1mbi0se/arrow master
+          git -C arrow checkout 0dc9bc21c968e38ee2fa47b41213d33c2d2a7d1f
           git -C arrow submodule update --init --recursive
       - name: Fetch Submodules and Tags
         shell: bash
@@ -97,8 +97,8 @@ jobs:
       - name: Checkout Arrow
         run: |
           git clone --no-checkout https://github.com/s1mbi0se/arrow arrow
-          git -C arrow fetch -t https://github.com/s1mbi0se/arrow rel-1500
-          git -C arrow checkout dc0dc107a670154779881376ef6d44377f037507
+          git -C arrow fetch -t https://github.com/s1mbi0se/arrow master
+          git -C arrow checkout 0dc9bc21c968e38ee2fa47b41213d33c2d2a7d1f
           git -C arrow submodule update --init --recursive
       - name: Download Linux C++ Libraries
         uses: actions/download-artifact@v2
@@ -133,8 +133,8 @@ jobs:
           --queue-path arrow \
           --queue-remote https://github.com/anthonylouisbsb/arrow-build \
           upload-artifacts \
-          --sha nigthly-20-github-gandiva-jar-ubuntu-macos \
-          --tag nigthly-20-github-gandiva-jar-ubuntu-macos \
+          --sha nigthly-21-github-gandiva-jar-ubuntu-macos \
+          --tag nigthly-21-github-gandiva-jar-ubuntu-macos \
           --pattern "arrow/dist/*.jar"
         env:
           CROSSBOW_GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
