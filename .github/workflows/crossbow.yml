@@ -32,7 +32,7 @@ jobs:
         run: |
           git clone --no-checkout https://github.com/s1mbi0se/arrow arrow
           git -C arrow fetch -t https://github.com/s1mbi0se/arrow rel-1500
-          git -C arrow checkout 8ca10c5e0929f180ebfe7f11871157a9b89f5d92
+          git -C arrow checkout dc0dc107a670154779881376ef6d44377f037507
           git -C arrow submodule update --init --recursive
       - name: Fetch Submodules and Tags
         shell: bash
@@ -62,7 +62,7 @@ jobs:
         run: |
           git clone --no-checkout https://github.com/s1mbi0se/arrow arrow
           git -C arrow fetch -t https://github.com/s1mbi0se/arrow rel-1500
-          git -C arrow checkout 8ca10c5e0929f180ebfe7f11871157a9b89f5d92
+          git -C arrow checkout dc0dc107a670154779881376ef6d44377f037507
           git -C arrow submodule update --init --recursive
       - name: Fetch Submodules and Tags
         shell: bash
@@ -98,7 +98,7 @@ jobs:
         run: |
           git clone --no-checkout https://github.com/s1mbi0se/arrow arrow
           git -C arrow fetch -t https://github.com/s1mbi0se/arrow rel-1500
-          git -C arrow checkout 8ca10c5e0929f180ebfe7f11871157a9b89f5d92
+          git -C arrow checkout dc0dc107a670154779881376ef6d44377f037507
           git -C arrow submodule update --init --recursive
       - name: Download Linux C++ Libraries
         uses: actions/download-artifact@v2
