@@ -1,0 +1,22 @@
+!Job
+target: !Target
+  head: bf0f6aafc81e9c0d86b015607b8a637f9c4136eb
+  email: travis@example.org
+  branch: master-copy
+  remote: https://github.com/s1mbi0se/arrow
+  version: 3.1.0.dev923
+  no_rc_version: 3.1.0.dev923
+  no_rc_semver_version: 3.1.0-dev923
+tasks:
+  java-jars: !Task
+    ci: github
+    template: java-jars/github.yml
+    artifacts:
+    - arrow-gandiva-3.1.0.dev923-SNAPSHOT.jar
+    - arrow-orc-3.1.0.dev923-SNAPSHOT.jar
+    - arrow-dataset-3.1.0.dev923-SNAPSHOT.jar
+    params: {}
+    branch: nightly-688-github-java-jars
+    commit: d60781f90b7cc84ffdf7db3d7139dcd904087897
+params: {}
+branch: nightly-688
