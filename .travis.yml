@@ -36,4 +36,4 @@ script:
 - pushd ..
 - git clone -b fixbug/fix-nightly-build-problems https://github.com/s1mbi0se/arrow
 - pip install -e arrow/dev/archery[crossbow] 
-- archery crossbow --queue-path $TRAVIS_BUILD_DIR --queue-remote https://github.com/$TRAVIS_REPO_SLUG submit test-ubuntu-18.04-cpp-release --job-prefix nightly
+- archery crossbow --queue-path $TRAVIS_BUILD_DIR --queue-remote https://github.com/$TRAVIS_REPO_SLUG submit test-ubuntu-18.04-cpp-static --job-prefix nightly
