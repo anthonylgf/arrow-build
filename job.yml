@@ -1,0 +1,24 @@
+!Job
+target: !Target
+  head: ec1b092e7ca93b0ab8925d2bc95f1a65c27035c8
+  email: travis@example.org
+  branch: fixbug/fix-nightly-build-problems
+  remote: https://github.com/s1mbi0se/arrow
+  version: 3.1.0.dev973
+  no_rc_version: 3.1.0.dev973
+  no_rc_semver_version: 3.1.0-dev973
+tasks:
+  test-ubuntu-18.04-cpp-release: !Task
+    ci: github
+    template: docker-tests/github.linux.yml
+    artifacts: []
+    params:
+      env:
+        UBUNTU: 18.04
+      flags: -e ARROW_BUILD_TYPE=release
+      image: ubuntu-cpp
+
+    branch: nightly-690-github-test-ubuntu-18.04-cpp-release
+    commit: 0eea18f640fc95f8d91da4adf24c5746e9d36855
+params: {}
+branch: nightly-690
