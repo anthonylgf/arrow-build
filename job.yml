@@ -1,0 +1,24 @@
+!Job
+target: !Target
+  head: 223e32b1a2d928ee03eef6c47ba2ad7b1a97e9f2
+  email: travis@example.org
+  branch: feature/add-check-for-utf8proc
+  remote: https://github.com/s1mbi0se/arrow
+  version: 3.1.0.dev988
+  no_rc_version: 3.1.0.dev988
+  no_rc_semver_version: 3.1.0-dev988
+tasks:
+  test-ubuntu-18.04-cpp-static: !Task
+    ci: github
+    template: docker-tests/github.linux.yml
+    artifacts: []
+    params:
+      env:
+        UBUNTU: 18.04
+      flags: -e ARROW_BUILD_SHARED=OFF -e ARROW_BUILD_STATIC=ON -e ARROW_TEST_LINKAGE=static
+      image: ubuntu-cpp
+
+    branch: nightly-692-github-test-ubuntu-18.04-cpp-static
+    commit: b4fb113ae5a8fd5005acd3c38ab421aa3ce1e2bf
+params: {}
+branch: nightly-692
