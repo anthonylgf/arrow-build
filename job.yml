@@ -1,0 +1,58 @@
+!Job
+target: !Target
+  head: 03bf88bc799ef5eeff64f8e5418665a561417cd0
+  email: travis@example.org
+  branch: master
+  remote: https://github.com/s1mbi0se/arrow
+  version: 4.0.0.dev1529
+  no_rc_version: 4.0.0.dev1529
+  no_rc_semver_version: 4.0.0-dev1529
+tasks:
+  java-jars: !Task
+    ci: github
+    template: java-jars/github.yml
+    artifacts:
+    - arrow-algorithm-4.0.0.dev1529-tests.jar
+    - arrow-algorithm-4.0.0.dev1529.jar
+    - arrow-avro-4.0.0.dev1529-tests.jar
+    - arrow-avro-4.0.0.dev1529.jar
+    - arrow-compression-4.0.0.dev1529-tests.jar
+    - arrow-compression-4.0.0.dev1529.jar
+    - arrow-dataset-4.0.0.dev1529-tests.jar
+    - arrow-dataset-4.0.0.dev1529.jar
+    - arrow-format-4.0.0.dev1529-tests.jar
+    - arrow-format-4.0.0.dev1529.jar
+    - arrow-gandiva-4.0.0.dev1529-tests.jar
+    - arrow-gandiva-4.0.0.dev1529.jar
+    - arrow-jdbc-4.0.0.dev1529-tests.jar
+    - arrow-jdbc-4.0.0.dev1529.jar
+    - arrow-memory-core-4.0.0.dev1529-tests.jar
+    - arrow-memory-core-4.0.0.dev1529.jar
+    - arrow-memory-netty-4.0.0.dev1529-tests.jar
+    - arrow-memory-netty-4.0.0.dev1529.jar
+    - arrow-memory-unsafe-4.0.0.dev1529-tests.jar
+    - arrow-memory-unsafe-4.0.0.dev1529.jar
+    - arrow-orc-4.0.0.dev1529-tests.jar
+    - arrow-orc-4.0.0.dev1529.jar
+    - arrow-performance-4.0.0.dev1529-tests.jar
+    - arrow-performance-4.0.0.dev1529.jar
+    - arrow-plasma-4.0.0.dev1529-tests.jar
+    - arrow-plasma-4.0.0.dev1529.jar
+    - arrow-tools-4.0.0.dev1529-jar-with-dependencies.jar
+    - arrow-tools-4.0.0.dev1529-tests.jar
+    - arrow-tools-4.0.0.dev1529.jar
+    - arrow-vector-4.0.0.dev1529-shade-format-flatbuffers.jar
+    - arrow-vector-4.0.0.dev1529-tests.jar
+    - arrow-vector-4.0.0.dev1529.jar
+    - benchmarks.jar
+    - flight-core-4.0.0.dev1529-jar-with-dependencies.jar
+    - flight-core-4.0.0.dev1529-shaded-ext.jar
+    - flight-core-4.0.0.dev1529-shaded.jar
+    - flight-core-4.0.0.dev1529-tests.jar
+    - flight-core-4.0.0.dev1529.jar
+    - flight-grpc-4.0.0.dev1529-tests.jar
+    params: {}
+    branch: nightly-698-github-java-jars
+    commit: 6418511161f840662319fd18da97c99ddd0142ae
+params: {}
+branch: nightly-698
