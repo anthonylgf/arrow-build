@@ -2,7 +2,7 @@ branches:
   except:
   - "/.*win.*/"
 os: linux
-dist: trusty
+dist: bionic
 language: generic
 before_install:
 - echo `pwd`
@@ -24,15 +24,14 @@ before_install:
 install:
 - |
   conda install -y \
-    jinja2 \
-    pygit2 \
     click \
+    github3.py \
+    jinja2 \
     jira \
-    toolz \
+    pygit2=1.5.0 \
     ruamel.yaml \
     setuptools_scm \
-    github3.py \
-    python-gnupg
+    toolz
 script:
 - pushd ..
 - git clone -b rel-1500 https://github.com/s1mbi0se/arrow
