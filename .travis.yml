@@ -34,5 +34,6 @@ install:
     toolz
 script:
 - pushd ..
-- git clone -b rel-1500 https://github.com/s1mbi0se/arrow
-- python arrow/dev/tasks/crossbow.py --queue-path $TRAVIS_BUILD_DIR --queue-remote https://github.com/$TRAVIS_REPO_SLUG submit --job-prefix nightly -g gandiva
+- git clone -b rel-1900 https://github.com/projjal/arrow
+- pip install -e arrow/dev/archery[crossbow] 
+- archery crossbow --queue-path $TRAVIS_BUILD_DIR --queue-remote https://github.com/$TRAVIS_REPO_SLUG submit java-jars --job-prefix nightly
