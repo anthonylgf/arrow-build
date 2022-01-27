@@ -34,6 +34,6 @@ install:
     toolz
 script:
 - pushd ..
-- git clone -b fixbug/fix-crash-object-code-cache https://github.com/s1mbi0se/arrow.git
+- git clone -b fixbug/add-flag-for-object-code https://github.com/s1mbi0se/arrow.git
 - pip install -e arrow/dev/archery[crossbow] 
 - archery crossbow --queue-path $TRAVIS_BUILD_DIR --queue-remote https://github.com/$TRAVIS_REPO_SLUG submit java-jars --job-prefix nightly
