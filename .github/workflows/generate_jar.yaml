@@ -27,7 +27,7 @@ jobs:
         run: |
           set -e
           echo ""
-          echo "Configuring conda."
+          echo "Configuring conda.."
           source /home/runner/miniconda3/bin/activate root
           conda config --remove channels defaults
           conda config --add channels defaults
